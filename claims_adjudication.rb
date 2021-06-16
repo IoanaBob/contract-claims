@@ -1,5 +1,6 @@
 require_relative './contract'
 require_relative './claim'
+require_relative './terms_and_conditions'
 require 'date'
 
 # Adjudicate/adjudication - a judgment made on a claim to determine whether
@@ -21,12 +22,11 @@ class ClaimsAdjudication
     end
   end
 
-   
   def claim_total(contract)
     contract.claims.sum(0.0) { |claim| claim.amount }
   end
 
   def claim_within_contract_dates(contract, new_claim)
-    new_claim.date  >= contract.effective_date && new_claim.date <= contract.expiration_date
+    contract.terms_and_conditions.active?(new_claim.date)
   end
 end
