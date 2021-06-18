@@ -1,15 +1,18 @@
 require "test/unit"
 require 'date'
 require_relative './claims_adjudication'
+require_relative './terms_and_conditions'
 
 class ClaimsAdjudicationTest < Test::Unit::TestCase
     def fake_contract
       product  = Product.new("dishwasher", "OEUOEU23", "Whirlpool", "7DP840CWDB0")
-      contract = Contract.new(100.0, product)
+      terms = TermsAndConditions.new(
+        effective_date: Date.new(2010, 5, 8),
+        expiration_date: Date.new(2012, 5, 8)
+      )
+      contract = Contract.new(100.0, product, terms)
 
       contract.status          = "ACTIVE"
-      contract.effective_date  = Date.new(2010, 5, 8)
-      contract.expiration_date = Date.new(2012, 5, 8)
 
       contract
   end
